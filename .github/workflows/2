@@ -1,0 +1,35 @@
+// OrderService.java
+public class OrderService {
+    private OrderRepository orderRepository;
+
+    public OrderService(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
+
+    public void placeOrder(String orderId) {
+        // 调用OrderRepository的方法来处理订单逻辑
+        orderRepository.saveOrder(orderId);
+    }
+}
+
+// OrderRepository.java
+public class OrderRepository {
+    public void saveOrder(String orderId) {
+        System.out.println("Saving order: " + orderId);
+        // 实际的订单保存逻辑...
+    }
+}
+<!-- applicationContext.xml -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 定义OrderRepository bean -->
+    <bean id="orderRepository" class="com.example.OrderRepository" />
+
+    <!-- 定义OrderService bean，并注入OrderRepository -->
+    <bean id="orderService" class="com.example.OrderService">
+        <constructor-arg ref="orderRepository" />
+    </bean>
+
+</beans>
