@@ -1,0 +1,40 @@
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+// 自定义注解接口
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+@interface CustomAnnotation {
+    String value() default "";
+}
+
+// 测试类
+public class AnnotationDemo {
+
+    // 使用自定义注解标注方法
+    @CustomAnnotation(value = "Hello, Annotation!")
+    public void printMessage() {
+        System.out.println("Printing message...");
+    }
+
+    public static void main(String[] args) throws NoSuchMethodException {
+        // 创建AnnotationDemo实例
+        AnnotationDemo demo = new AnnotationDemo();
+
+        // 获取printMessage方法对象
+        Method method = demo.getClass().getMethod("printMessage");
+
+        // 检查方法是否使用了CustomAnnotation注解
+        if (method.isAnnotationPresent(CustomAnnotation.class)) {
+            // 获取注解实例
+            CustomAnnotation annotation = method.getAnnotation(CustomAnnotation.class);
+            
+            // 输出注解值
+            System.out.println(annotation.value());
+        } else {
+            System.out.println("CustomAnnotation not found!");
+        }
+    }
+}
