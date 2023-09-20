@@ -1,0 +1,47 @@
+// 抽象产品接口
+interface Product {
+    void use();
+}
+
+// 具体产品类A
+class ConcreteProductA implements Product {
+    @Override
+    public void use() {
+        System.out.println("Using ConcreteProductA");
+    }
+}
+
+// 具体产品类B
+class ConcreteProductB implements Product {
+    @Override
+    public void use() {
+        System.out.println("Using ConcreteProductB");
+    }
+}
+
+// 工厂类
+class Factory {
+    // 创建产品的方法
+    public static Product createProduct(String type) {
+        if (type.equals("A")) {
+            return new ConcreteProductA();
+        } else if (type.equals("B")) {
+            return new ConcreteProductB();
+        }
+
+        throw new IllegalArgumentException("Invalid product type: " + type);
+    }
+}
+
+// 测试代码
+public class FactoryPatternDemo {
+    public static void main(String[] args) {
+        // 使用工厂类创建具体产品对象
+        Product productA = Factory.createProduct("A");
+        Product productB = Factory.createProduct("B");
+
+        // 调用产品的方法
+        productA.use();  // 输出：Using ConcreteProductA
+        productB.use();  // 输出：Using ConcreteProductB
+    }
+}
