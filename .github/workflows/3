@@ -1,0 +1,60 @@
+import java.lang.reflect.Method;
+
+public class ReflectionDemo {
+
+    private String name;
+    private int age;
+
+    public ReflectionDemo() {
+        this.name = "John";
+        this.age = 30;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void sayHello() {
+        System.out.println("Hello, my name is " + name);
+    }
+
+    public void showAge() {
+        System.out.println("I am " + age + " years old");
+    }
+
+    public static void main(String[] args) throws Exception {
+        // 创建ReflectionDemo实例
+        ReflectionDemo demo = new ReflectionDemo();
+
+        // 获取Class对象
+        Class<?> clazz = demo.getClass();
+
+        // 获取setName方法
+        Method setNameMethod = clazz.getMethod("setName", String.class);
+
+        // 调用setName方法
+        setNameMethod.invoke(demo, "Alice");
+
+        // 获取setAge方法
+        Method setAgeMethod = clazz.getMethod("setAge", int.class);
+
+        // 调用setAge方法
+        setAgeMethod.invoke(demo, 25);
+
+        // 获取sayHello方法
+        Method sayHelloMethod = clazz.getMethod("sayHello");
+
+        // 调用sayHello方法
+        sayHelloMethod.invoke(demo);
+
+        // 获取showAge方法
+        Method showAgeMethod = clazz.getMethod("showAge");
+
+        // 调用showAge方法
+        showAgeMethod.invoke(demo);
+    }
+}
