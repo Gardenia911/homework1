@@ -1,0 +1,54 @@
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
+public class ReflectionDemo {
+
+    private String name;
+    public int age;
+
+    public ReflectionDemo() {
+        this.name = "John";
+        this.age = 30;
+    }
+
+    public ReflectionDemo(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public void sayHello() {
+        System.out.println("Hello, my name is " + name);
+    }
+
+    private void showAge() {
+        System.out.println("I am " + age + " years old");
+    }
+
+    public static void main(String[] args) throws Exception {
+        // 类的全限定名
+        String className = "ReflectionDemo";
+
+        // 反射获取类对象
+        Class<?> clazz = Class.forName(className);
+
+        // 获取构造方法并创建对象
+        Constructor<?> constructor = clazz.getConstructor();
+        ReflectionDemo demo1 = (ReflectionDemo) constructor.newInstance();
+
+        // 获取字段，并设置/获取值
+        Field field = clazz.getDeclaredField("age");
+        field.setAccessible(true);
+        field.setInt(demo1, 25);
+        int age = field.getInt(demo1);
+        System.out.println("Current age: " + age);
+
+        // 获取方法并调用
+        Method sayHelloMethod = clazz.getMethod("sayHello");
+        sayHelloMethod.invoke(demo1);
+
+        Method showAgeMethod = clazz.getDeclaredMethod("showAge");
+        showAgeMethod.setAccessible(true);
+        showAgeMethod.invoke(demo1);
+    }
+}
